@@ -32,6 +32,9 @@
          <image>
             <Image url="@../Images/6681204.png" />
          </image>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
       </ImageView>
       <TextField fx:id="Username" layoutX="52.0" layoutY="240.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter username" style="-fx-background-radius: 10;" />
       <TextField fx:id="Password" layoutX="52.0" layoutY="300.0" minWidth="100.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter password" style="-fx-background-radius: 10;" />
