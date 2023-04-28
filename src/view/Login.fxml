@@ -5,40 +5,28 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="image" prefHeight="439.0" prefWidth="302.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main">
+<AnchorPane prefHeight="550.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main">
    <cursor>
-      <Cursor fx:constant="CROSSHAIR" />
+      <Cursor fx:constant="DEFAULT" />
    </cursor>
    <children>
-      <ImageView fx:id="backImage" fitHeight="528.0" fitWidth="303.0" layoutY="-1.0" nodeOrientation="INHERIT" pickOnBounds="true">
+      <ImageView fitHeight="117.0" fitWidth="117.0" layoutX="107.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Images/backgroundImage.jpg" />
-         </image>
-         <cursor>
-            <Cursor fx:constant="DEFAULT" />
-         </cursor>
-         <effect>
-            <GaussianBlur />
-         </effect>
-      </ImageView>
-      <ImageView fitHeight="104.0" fitWidth="107.0" layoutX="100.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Images/6681204.png" />
+            <Image url="@../images/6681204.png" />
          </image>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </ImageView>
-      <TextField fx:id="username" layoutX="52.0" layoutY="240.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter username" style="-fx-background-radius: 10;" />
-      <TextField fx:id="password" layoutX="52.0" layoutY="300.0" minWidth="100.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter password" style="-fx-background-radius: 10;" />
-      <Button layoutX="84.0" layoutY="400.0" mnemonicParsing="false" onAction="#Login" prefHeight="34.0" prefWidth="136.0" style="-fx-background-radius: 50; -fx-border-color: white; -fx-background-color: dolce; -fx-border-radius: 50;" text="Login" textAlignment="CENTER" textFill="WHITE">
+      <TextField fx:id="username" layoutX="42.0" layoutY="260.0" prefHeight="35.0" prefWidth="247.0" promptText="Enter username" style="-fx-background-radius: 10;" />
+      <TextField fx:id="password" layoutX="41.0" layoutY="316.0" minWidth="100.0" prefHeight="35.0" prefWidth="247.0" promptText="Enter password" style="-fx-background-radius: 10;" />
+      <Button layoutX="77.0" layoutY="410.0" mnemonicParsing="false" onAction="#Login" prefHeight="52.0" prefWidth="174.0" style="-fx-background-radius: 50; -fx-border-color: white; -fx-border-radius: 50; -fx-background-color: transparent;" text="Login" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -46,9 +34,9 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label fx:id="error" layoutX="41.0" layoutY="354.0" text="Wrong username or password !" textAlignment="CENTER" textFill="RED" visible="false">
+      <Label fx:id="error" layoutX="33.0" layoutY="366.0" prefWidth="263.0" text="Wrong username or password !" textAlignment="CENTER" textFill="RED" visible="false">
          <font>
-            <Font name="System Bold" size="16.0" />
+            <Font name="System Bold" size="17.0" />
          </font>
          <effect>
             <DropShadow height="11.64" radius="3.5650000000000004" spread="0.46" width="4.62">
@@ -57,6 +45,9 @@
                </color>
             </DropShadow>
          </effect>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
       </Label>
    </children>
 </AnchorPane>
