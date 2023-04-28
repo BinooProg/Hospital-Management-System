@@ -7,13 +7,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    String admin_username="b";
+    String admin_password="123";
     public static void main(String[] args) {
         launch(args);
     }
     static Stage loginStage=new Stage();
+    @FXML
+    private ImageView backImage;
+
     @FXML
     private Label error;
 
@@ -25,7 +31,9 @@ public class Main extends Application {
 
     @FXML
     void Login(ActionEvent event) {
-        System.out.println("Loged");
+        if(username.getText().equals(admin_username)){
+            System.out.println("fawdawd");
+        }
     }
 
     @Override
