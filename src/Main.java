@@ -31,14 +31,13 @@ public class Main extends Application {
 
     @FXML
     void Login(ActionEvent event) {
-        if(username.getText().equals(admin_username)){
-            System.out.println("fawdawd");
-        }
+
     }
 
     @Override
     public void start(Stage stage) throws Exception {
         Parent root= FXMLLoader.load(getClass().getResource("view/Login.fxml"));
+        root.setStyle("-fx-background-image: url('images/backgroundImage.jpg')");
         Scene scene=new Scene(root);
         loginStage.setScene(scene);
         loginStage.setTitle("Hospital management");
