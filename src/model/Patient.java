@@ -1,10 +1,14 @@
 package model;
 
-public class Patient extends Person{
-    private static int NOPatients=0;
+public class Patient{
+    String ID;
+    String name;
+    int age;
 
-    public Patient(String ID, String name, String username, String password) {
-        super(ID, name, username, password);
-        NOPatients++;
+
+    public Patient(String ID, String name,int age) {
+        this.ID=ID;
+        this.name=name;
+        this.age=age;
     }
 }

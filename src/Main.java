@@ -10,18 +10,19 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import model.*;
 
+import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class Main extends Application {
-    ArrayList<Person> persons=new ArrayList<>();
+    Scanner kb = new Scanner(System.in);
 
-
-    Scanner kb=new Scanner(System.in);
     public static void main(String[] args) {
         launch(args);
     }
-    static Stage loginStage=new Stage();
+
+    static Stage loginStage = new Stage();
     @FXML
     private TextField epassword;
 
@@ -33,40 +34,155 @@ public class Main extends Application {
 
     @FXML
     void Login(ActionEvent event) {
-        persons.add(new Admin("ad","awd","a","a"));
-        persons.add(new Doctor("ahmed","shahid","d","d"));
-        persons.add(new Pharmacist("ahmed","shahid","p","p"));
-    String username=eusername.getText();
-    String password=epassword.getText();
-    boolean exist=false;
-    for(Person p : persons){
-        if(username.equals(p.getUsername()) && password.equals(p.getPassword())){
-            exist=true;
-            String ptype=p.getClass().getSimpleName();
-            loginStage.hide();
-            switch (ptype) {
-                case "Admin" -> showAdminMenu();
-                case "Doctor" -> showDoctorMenu();
-                case "Pharmacist" -> showPharmacistMenu();
-                case "Receptionist" -> showReceptionistMenu();
-                case "Accountant" -> showAccountantMenu();
+        String username = eusername.getText();
+        String password = epassword.getText();
+        boolean exist = false;
+        var patients = (ArrayList<Patient>) Serialize.deSerializeList("patients");
+        for (var user : patients) {
 
-            }
-        }
-        if (!exist) {
-            error.setVisible(true);
         }
     }
+
+    private void showAdminMenu() {
+        System.out.println("1. Manage patients");
+        System.out.println("2. Manage doctors");
+        System.out.println("3. Manage accountants");
+        System.out.println("4. Manage pharmacists");
+        System.out.println("5. Manage receptionists");
+        System.out.println("6. Manage pharmaceuticals");
+        System.out.println("7. Manage departments");
+        System.out.println("8. Manage rooms");
+        int temp = kb.nextInt();
+        switch (temp) {
+            case 1:
+                System.out.println("1. Add new patient");
+                System.out.println("2. Delete existent patient");
+                System.out.println("3. View all patients");
+                temp = kb.nextInt();
+                switch (temp) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
+                break;
+            case 2:
+                System.out.println("1. Add new doctor");
+                System.out.println("2. Delete existent doctor");
+                System.out.println("3. View all doctors");
+                temp = kb.nextInt();
+                switch (temp) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
+
+                break;
+            case 3:
+                System.out.println("1. Add new accountant");
+                System.out.println("2. Delete existent accountant");
+                System.out.println("3. View all accountants");
+                temp = kb.nextInt();
+                switch (temp) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
+                break;
+            case 4:
+                System.out.println("1. Add new pharmacist");
+                System.out.println("2. Delete existent pharmacist");
+                System.out.println("3. View all pharmacists");
+                temp = kb.nextInt();
+                switch (temp) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
+                break;
+            case 5:
+                System.out.println("1. Add new receptionist");
+                System.out.println("2. Delete existent receptionist");
+                System.out.println("3. View all receptionists");
+                temp = kb.nextInt();
+                switch (temp) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
+
+                break;
+            case 6:
+                System.out.println("1. Add new pharmaceutical");
+                System.out.println("2. Delete existent pharmaceutical");
+                System.out.println("3. View all pharmaceuticals");
+                temp = kb.nextInt();
+                switch (temp) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
+
+                break;
+            case 7:
+                System.out.println("1. Add new department");
+                System.out.println("2. Delete existent department");
+                System.out.println("3. View all departments");
+                temp = kb.nextInt();
+                switch (temp) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
+
+                break;
+            case 8:
+                System.out.println("1. Add new room");
+                System.out.println("2. Delete existent room");
+                System.out.println("3. View all rooms");
+                temp = kb.nextInt();
+                switch (temp) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
+
+                break;
+        }
+
+
     }
-    private void showAdminMenu(){
-        System.out.println();
-    }private void showDoctorMenu(){
-        System.out.println("1_ Serve patient");
-        System.out.println("2_ Show all pharmaceutical");
-        System.out.println("3_ Update status");
-        System.out.println("4_ Exit");
-        int temp= kb.nextInt();
-        switch (temp){
+
+    private void showDoctorMenu() {
+        System.out.println("1. Serve patient");
+        System.out.println("2. Show all pharmaceutical");
+        System.out.println("3. Update status");
+        System.out.println("4. Exit");
+        int temp = kb.nextInt();
+        switch (temp) {
             case 1:
 
 
@@ -79,15 +195,17 @@ public class Main extends Application {
                 exit();
                 break;
         }
-    }private void showPharmacistMenu(){
-        System.out.println("1_ Serve patient");
-        System.out.println("2_ Show all patients");
-        System.out.println("3_ Show all pharmaceutical");
-        System.out.println("4_ Add new pharmaceutical");
-        System.out.println("5_ Show statistics");
-        System.out.println("6_ Exit");
-        int temp= kb.nextInt();
-        switch (temp){
+    }
+
+    private void showPharmacistMenu() {
+        System.out.println("1. Serve patient");
+        System.out.println("2. Show all patients");
+        System.out.println("3. Show all pharmaceutical");
+        System.out.println("4. Add new pharmaceutical");
+        System.out.println("5. Show statistics");
+        System.out.println("6. Exit");
+        int temp = kb.nextInt();
+        switch (temp) {
             case 1:
 
 
@@ -104,27 +222,30 @@ public class Main extends Application {
                 exit();
                 break;
         }
-    }private void showReceptionistMenu(){
-        System.out.println("1_ Serve patient");
-        System.out.println("2_ Exit");
-        int temp= kb.nextInt();
-        switch (temp){
+    }
+
+    private void showReceptionistMenu() {
+        System.out.println("1. Serve patient");
+        System.out.println("2. Exit");
+        int temp = kb.nextInt();
+        switch (temp) {
             case 1:
-            System.out.print("Enter patient id: ");
-            int eID=kb.nextInt();
-            break;
+                System.out.print("Enter patient id: ");
+                int eID = kb.nextInt();
+                break;
             case 2:
                 exit();
-            break;
+                break;
         }
     }
-    private void showAccountantMenu(){
-        System.out.println("1_ Serve patient");
-        System.out.println("2_ Show all patients");
-        System.out.println("3_ Show statistics");
-        System.out.println("4_ Exit");
-        int temp= kb.nextInt();
-        switch (temp){
+
+    private void showAccountantMenu() {
+        System.out.println("1. Serve patient");
+        System.out.println("2. Show all patients");
+        System.out.println("3. Show statistics");
+        System.out.println("4. Exit");
+        int temp = kb.nextInt();
+        switch (temp) {
             case 1:
 
 
@@ -138,18 +259,20 @@ public class Main extends Application {
                 break;
         }
     }
+
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root= FXMLLoader.load(getClass().getResource("view/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("view/Login.fxml"));
         root.setStyle("-fx-background-image: url('images/backgroundImage.jpg')");
-        Scene scene=new Scene(root);
+        Scene scene = new Scene(root);
         loginStage.setScene(scene);
         loginStage.setTitle("Hospital management");
         loginStage.getIcons().add(new Image("images/Icon.png"));
         loginStage.setResizable(false);
         loginStage.show();
     }
-    public void exit(){
+
+    public void exit() {
         eusername.clear();
         epassword.clear();
         error.setVisible(false);

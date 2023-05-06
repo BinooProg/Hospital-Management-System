@@ -1,8 +1,7 @@
 package model;
+import java.io.Serializable;
 
-import java.util.ArrayList;
-
-public class Person {
+public class Person implements Serializable{
     private String ID;
     private String name;
     private String username;

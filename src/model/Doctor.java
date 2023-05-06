@@ -11,7 +11,19 @@ public class Doctor extends Person {
         super(ID, name, username, password);
     }
 
-    public void addPatient(Patient p){
-    docPatients.add(p);
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public ArrayList<Person> getDocPatients() {
+        return docPatients;
+    }
+
+    public void setDocPatients(ArrayList<Person> docPatients) {
+        this.docPatients = docPatients;
     }
 }
