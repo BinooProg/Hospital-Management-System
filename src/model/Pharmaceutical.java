@@ -1,6 +1,8 @@
 package model;
 
-public class Pharmaceutical {
+import java.io.Serializable;
+
+public class Pharmaceutical implements Serializable {
     private String name;
     private String ID;
     private int price;

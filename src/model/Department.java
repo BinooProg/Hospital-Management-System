@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Department {
+public class Department implements Serializable {
     private String depID;
     private String depName;
     ArrayList<Person> depDoctors=new ArrayList<>();

@@ -40,12 +40,14 @@ public class Serialize {
                 case "receptionists":
                     return (ArrayList<Receptionist>) oin.readObject();
             }
+            oin.close();
+            fin.close();
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }catch (IOException e) {
-            System.out.println("Cannot serialize this array");
+            System.out.println("Cannot deSerialize this array");
         }
         return null;
     }
