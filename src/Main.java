@@ -95,88 +95,205 @@ public class Main extends Application {
             int temp = kb.nextInt();
             switch (temp) {
                 case 1:
-                    System.out.println("1. Add new patient");
-                    System.out.println("2. Delete existent patient");
-                    System.out.println("3. View all patients");
-                    System.out.println("4. Exit");
-                    temp = kb.nextInt();
-                    switch (temp) {
-                        case 1: {
-                            System.out.print("Enter patient ID: ");
-                            kb.next();
-                            String id = kb.nextLine();
-                            System.out.print("Enter patient name: ");
-                            String name = kb.nextLine();
-                            System.out.print("Enter patient age: ");
-                            int age = kb.nextInt();
-                            ArrayList<Patient> p = (ArrayList<Patient>) Serialize.deSerializeList("patients");
-                            p.add(new Patient(id, name, age));
-                            Serialize.serializeList("patients", p);
-                            break;
+                    boolean b1=true;
+                    while (b1){
+                        System.out.println("1. Add new patient");
+                        System.out.println("2. Delete existent patient");
+                        System.out.println("3. View all patients");
+                        System.out.println("4. Exit");
+                        temp = kb.nextInt();
+                        switch (temp) {
+                            case 1: {
+                                System.out.print("Enter patient ID: ");
+                                String id = kb.next();
+                                kb.nextLine();
+                                System.out.print("Enter patient name: ");
+                                String name = kb.nextLine();
+                                System.out.print("Enter patient age: ");
+                                int age = kb.nextInt();
+                                ArrayList<Patient> p = (ArrayList<Patient>) Serialize.deSerializeList("patients");
+                                p.add(new Patient(id, name, age));
+                                Serialize.serializeList("patients", p);
+                                break;
+                            }
+                            case 2: {
+                                System.out.print("Enter patient ID: ");
+                                String id = kb.next();
+                                ArrayList<Patient> p = (ArrayList<Patient>) Serialize.deSerializeList("patients");
+                                p.removeIf(d -> d.getID().equals(id));
+                                Serialize.serializeList("patients", p);
+                                break;
+                            }
+                            case 3:{
+                                ArrayList<Patient> p = (ArrayList<Patient>) Serialize.deSerializeList("patients");
+                                for (Patient d:p) {
+                                    System.out.println(d);
+                                }
+                                break;}
+                            case 4:
+                                b1=false;
+                                break;
                         }
-                        case 2: {
-                            System.out.print("Enter patient ID: ");
-                            String id = kb.next();
-                            ArrayList<Patient> p = (ArrayList<Patient>) Serialize.deSerializeList("patients");
-                            p.remove(p);
-                            Serialize.serializeList("patients", p);
-                            break;
-                        }
-                        case 3:
-                            break;
-                        case 4:
-                            break;
                     }
-
-
                     break;
                 case 2:
-                    System.out.println("1. Add new doctor");
-                    System.out.println("2. Delete existent doctor");
-                    System.out.println("3. View all doctors");
-                    temp = kb.nextInt();
-                    switch (temp) {
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
+                    boolean b2=true;
+                    while (b2){
+                        System.out.println("1. Add new doctor");
+                        System.out.println("2. Delete existent doctor");
+                        System.out.println("3. View all doctors");
+                        System.out.println("4. Exit");
+                        temp = kb.nextInt();
+                        switch (temp) {
+                            case 1:{
+                                System.out.print("Enter doctor ID: ");
+                                String id = kb.next();
+                                kb.nextLine();
+                                System.out.print("Enter doctor name: ");
+                                String name = kb.nextLine();
+                                System.out.print("Enter doctor age: ");
+                                int age = kb.nextInt();
+                                System.out.print("Enter doctor username: ");
+                                String username=kb.next();
+                                kb.nextLine();
+                                System.out.print("Enter doctor password: ");
+                                String password=kb.next();
+                                kb.nextLine();
+                                System.out.print("Enter doctor salary: ");
+                                int salary = kb.nextInt();
+                                System.out.print("Enter doctor phoneNumber: ");
+                                String phoneNumb = kb.next();
+                                kb.nextLine();
+                                ArrayList<Doctor> dd=(ArrayList<Doctor>) Serialize.deSerializeList("doctors");
+                                dd.add(new Doctor(id,name,username,password,age,salary,phoneNumb));
+                                Serialize.serializeList("doctors",dd);
+                                break;}
+                            case 2:
+                                System.out.print("Enter doctor ID: ");
+                                String id = kb.next();
+                                ArrayList<Doctor> p = (ArrayList<Doctor>) Serialize.deSerializeList("doctors");
+                                p.removeIf(d -> d.getID().equals(id));
+                                Serialize.serializeList("doctors",p);
+                                break;
+                            case 3:{
+                                ArrayList<Doctor> dd=(ArrayList<Doctor>) Serialize.deSerializeList("doctors");
+                                for (Doctor d:dd) {
+                                    System.out.println(d);
+                                }
+                                break;}
+                            case 4:
+                                b2=false;
+                                break;
+                        }
+                    }
+                    break;
+                case 3:
+                    boolean b3=true;
+                    while(b3){
+                        System.out.println("1. Add new accountant");
+                        System.out.println("2. Delete existent accountant");
+                        System.out.println("3. View all accountants");
+                        System.out.println("4. Exit");
+                        temp = kb.nextInt();
+                        switch (temp) {
+                            case 1:{
+                                System.out.print("Enter accountant ID: ");
+                                String id = kb.next();
+                                kb.nextLine();
+                                System.out.print("Enter accountant name: ");
+                                String name = kb.nextLine();
+                                System.out.print("Enter accountant age: ");
+                                int age = kb.nextInt();
+                                System.out.print("Enter accountant username: ");
+                                String username=kb.next();
+                                kb.nextLine();
+                                System.out.print("Enter accountant password: ");
+                                String password=kb.next();
+                                kb.nextLine();
+                                System.out.print("Enter accountant salary: ");
+                                int salary = kb.nextInt();
+                                ArrayList<Accountant> dd=(ArrayList<Accountant>) Serialize.deSerializeList("accountants");
+                                dd.add(new Accountant(id,name,username,password,age,salary));
+                                Serialize.serializeList("accountants",dd);
+                                break;}
+                            case 2:{
+                                System.out.print("Enter accountant ID: ");
+                                String id = kb.next();
+                                ArrayList<Accountant> p = (ArrayList<Accountant>) Serialize.deSerializeList("accountants");
+                                p.removeIf(d -> d.getID().equals(id));
+                                Serialize.serializeList("accountants",p);
+                                break;}
+                            case 3:{
+                                ArrayList<Accountant> dd=(ArrayList<Accountant>) Serialize.deSerializeList("accountants");
+                                for (Accountant d:dd) {
+                                    System.out.println(d);
+                                }
+                                break;}
+                            case 4:
+                                b3=false;
+                                break;
+                        }
                     }
 
                     break;
-                case 3:
-                    System.out.println("1. Add new accountant");
-                    System.out.println("2. Delete existent accountant");
-                    System.out.println("3. View all accountants");
-                    temp = kb.nextInt();
-                    switch (temp) {
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
-                    }
-                    break;
                 case 4:
-                    System.out.println("1. Add new pharmacist");
-                    System.out.println("2. Delete existent pharmacist");
-                    System.out.println("3. View all pharmacists");
-                    temp = kb.nextInt();
-                    switch (temp) {
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
+                    boolean b4=true;
+                    while(b4){
+                        System.out.println("1. Add new pharmacist");
+                        System.out.println("2. Delete existent pharmacist");
+                        System.out.println("3. View all pharmacist");
+                        System.out.println("4. Exit");
+                        temp = kb.nextInt();
+                        switch (temp) {
+                            case 1:{
+                                System.out.print("Enter pharmacist ID: ");
+                                String id = kb.next();
+                                kb.nextLine();
+                                System.out.print("Enter pharmacist name: ");
+                                String name = kb.nextLine();
+                                System.out.print("Enter pharmacist age: ");
+                                int age = kb.nextInt();
+                                System.out.print("Enter pharmacist username: ");
+                                String username=kb.next();
+                                kb.nextLine();
+                                System.out.print("Enter pharmacist password: ");
+                                String password=kb.next();
+                                kb.nextLine();
+                                System.out.print("Enter pharmacist salary: ");
+                                int salary = kb.nextInt();
+                                ArrayList<Pharmacist> dd=(ArrayList<Pharmacist>) Serialize.deSerializeList("pharmacists");
+                                dd.add(new Pharmacist(id,name,username,password,age));
+                                Serialize.serializeList("pharmacists",dd);
+                                break;}
+                            case 2:{
+                                System.out.print("Enter pharmacist ID: ");
+                                String id = kb.next();
+                                ArrayList<Pharmacist> p1 = (ArrayList<Pharmacist>) Serialize.deSerializeList("pharmacists");
+                                for (Pharmacist d:p1) {
+                                    if(d.getID().equals(id)){
+                                        p1.remove(d);
+                                    }
+                                }
+                                Serialize.serializeList("pharmacists",p1);
+                                break;}
+                            case 3:{
+                                ArrayList<Pharmacist> dd=(ArrayList<Pharmacist>) Serialize.deSerializeList("pharmacists");
+                                for (Pharmacist d:dd) {
+                                    System.out.println(d);
+                                }
+                                break;}
+                            case 4:
+                                b4=false;
+                                break;
+                        }
                     }
+
                     break;
                 case 5:
                     System.out.println("1. Add new receptionist");
                     System.out.println("2. Delete existent receptionist");
                     System.out.println("3. View all receptionists");
+                    System.out.println("4. Exit");
                     temp = kb.nextInt();
                     switch (temp) {
                         case 1:
@@ -192,6 +309,7 @@ public class Main extends Application {
                     System.out.println("1. Add new pharmaceutical");
                     System.out.println("2. Delete existent pharmaceutical");
                     System.out.println("3. View all pharmaceuticals");
+                    System.out.println("4. Exit");
                     temp = kb.nextInt();
                     switch (temp) {
                         case 1:
@@ -207,6 +325,7 @@ public class Main extends Application {
                     System.out.println("1. Add new department");
                     System.out.println("2. Delete existent department");
                     System.out.println("3. View all departments");
+                    System.out.println("4. Exit");
                     temp = kb.nextInt();
                     switch (temp) {
                         case 1:
@@ -222,6 +341,7 @@ public class Main extends Application {
                     System.out.println("1. Add new room");
                     System.out.println("2. Delete existent room");
                     System.out.println("3. View all rooms");
+                    System.out.println("4. Exit");
                     temp = kb.nextInt();
                     switch (temp) {
                         case 1:
