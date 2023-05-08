@@ -15,7 +15,7 @@ public class Patient implements Serializable {
     }
 
     public String toString(){
-        return "Patient ID: "+getID()+" Patient name: "+getName()+" Patient age: "+age;
+        return "Patient ID: "+getID()+" name: "+getName()+" age: "+age;
     }
     public String getID() {
         return ID;

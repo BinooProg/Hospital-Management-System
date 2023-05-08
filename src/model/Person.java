@@ -1,19 +1,20 @@
 package model;
+
 import java.io.Serializable;
 
-public class Person implements Serializable{
+public class Person implements Serializable {
     private String ID;
     private String name;
     private String username;
     private String password;
     private int age;
 
-    public Person(String ID, String name,String username,String password,int age) {
+    public Person(String ID, String name, String username, String password, int age) {
         this.ID = ID;
         this.name = name;
-        this.username=username;
-        this.password=password;
-        this.age=age;
+        this.username = username;
+        this.password = password;
+        this.age = age;
     }
 
     public String getID() {

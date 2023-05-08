@@ -2,16 +2,18 @@ package model;
 
 import java.util.ArrayList;
 
-public class Doctor extends Person {
+public class Doctor extends Person implements Comparable<Doctor> {
     boolean available;
     private int salary;
     private String phoneNumb;
+    int noOfPatients;
     ArrayList<Patient> docPatients = new ArrayList<>();
 
     public Doctor(String ID, String name, String username, String password, int age, int salary, String phoneNumb) {
         super(ID, name, username, password, age);
         this.salary = salary;
         this.phoneNumb = phoneNumb;
+        noOfPatients=0;
     }
 
     public String toString() {
@@ -52,5 +54,18 @@ public class Doctor extends Person {
 
     public void setPhoneNumb(String phoneNumb) {
         this.phoneNumb = phoneNumb;
+    }
+
+    public int getNoOfPatients() {
+        return noOfPatients;
+    }
+
+    public void setNoOfPatients(int noOfPatients) {
+        this.noOfPatients = noOfPatients;
+    }
+
+    @Override
+    public int compareTo(Doctor d) {
+        return this.getNoOfPatients()-d.getNoOfPatients();
     }
 }

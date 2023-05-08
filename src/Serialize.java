@@ -20,11 +20,11 @@ public class Serialize {
         }
     }
 
-    public static ArrayList<?> deSerializeList (String fileName){
+    public static ArrayList<?> deSerializeList(String fileName) {
         try {
             FileInputStream fin = new FileInputStream(filePath + fileName + ".dat");
             ObjectInputStream oin = new ObjectInputStream(fin);
-            switch (fileName){
+            switch (fileName) {
                 case "accountants":
                     return (ArrayList<Accountant>) oin.readObject();
                 case "departments":
@@ -39,6 +39,8 @@ public class Serialize {
                     return (ArrayList<Pharmacist>) oin.readObject();
                 case "receptionists":
                     return (ArrayList<Receptionist>) oin.readObject();
+                case "rooms":
+                    return (ArrayList<Room>) oin.readObject();
             }
             oin.close();
             fin.close();
@@ -46,7 +48,7 @@ public class Serialize {
             System.out.println("File not found");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Cannot deSerialize this array");
         }
         return null;

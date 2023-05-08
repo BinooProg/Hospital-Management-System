@@ -4,36 +4,44 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Department implements Serializable {
-    private String depID;
-    private String depName;
-    ArrayList<Person> depDoctors=new ArrayList<>();
+    private String ID;
+    private String Name;
+    ArrayList<Room> rooms = new ArrayList<>();
 
-    public Department(String depID, String depName) {
-        this.depID = depID;
-        this.depName = depName;
+    public Department(String ID, String name) {
+        this.ID = ID;
+        Name = name;
     }
 
-    public String getDepID() {
-        return depID;
+    public String toString() {
+        return "Department id: " + getID() + " name: " + getName();
     }
 
-    public void setDepID(String depID) {
-        this.depID = depID;
+    public String getID() {
+        return ID;
     }
 
-    public String getDepName() {
-        return depName;
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
-    public void setDepName(String depName) {
-        this.depName = depName;
+    public String getName() {
+        return Name;
     }
 
-    public ArrayList<Person> getDepDoctors() {
-        return depDoctors;
+    public void setName(String name) {
+        Name = name;
     }
 
-    public void setDepDoctors(ArrayList<Person> depDoctors) {
-        this.depDoctors = depDoctors;
+    public ArrayList<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(ArrayList<Room> rooms) {
+        this.rooms = rooms;
+    }
+
+    public void addRoom(Room r){
+    rooms.add(r);
     }
 }

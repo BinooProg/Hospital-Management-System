@@ -10,9 +10,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import model.*;
 
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Main extends Application {
@@ -111,11 +109,11 @@ public class Main extends Application {
                                 for (Patient p : arr) {
                                     if (p.getID().equals(id)) {
                                         System.out.println("Duplicated id");
-                                        bb=true;
+                                        bb = true;
                                         break;
                                     }
                                 }
-                                if(bb)
+                                if (bb)
                                     break;
                                 System.out.print("Enter patient name: ");
                                 String name = kb.nextLine();
@@ -164,11 +162,11 @@ public class Main extends Application {
                                 for (Doctor p : arr) {
                                     if (p.getID().equals(id)) {
                                         System.out.println("Duplicated id");
-                                        bb=true;
+                                        bb = true;
                                         break;
                                     }
                                 }
-                                if(bb)
+                                if (bb)
                                     break;
                                 System.out.print("Enter doctor name: ");
                                 String name = kb.nextLine();
@@ -227,11 +225,11 @@ public class Main extends Application {
                                 for (Accountant p : arr) {
                                     if (p.getID().equals(id)) {
                                         System.out.println("Duplicated id");
-                                        bb=true;
+                                        bb = true;
                                         break;
                                     }
                                 }
-                                if(bb)
+                                if (bb)
                                     break;
                                 System.out.print("Enter accountant name: ");
                                 String name = kb.nextLine();
@@ -289,11 +287,11 @@ public class Main extends Application {
                                 for (Pharmacist p : arr) {
                                     if (p.getID().equals(id)) {
                                         System.out.println("Duplicated id");
-                                        bb=true;
+                                        bb = true;
                                         break;
                                     }
                                 }
-                                if(bb)
+                                if (bb)
                                     break;
                                 System.out.print("Enter pharmacist name: ");
                                 String name = kb.nextLine();
@@ -313,11 +311,7 @@ public class Main extends Application {
                                 System.out.print("Enter pharmacist ID: ");
                                 String id = kb.next();
                                 ArrayList<Pharmacist> p1 = (ArrayList<Pharmacist>) Serialize.deSerializeList("pharmacists");
-                                for (Pharmacist d : p1) {
-                                    if (d.getID().equals(id)) {
-                                        p1.remove(d);
-                                    }
-                                }
+                                p1.removeIf(d -> d.getID().equals(id));
                                 Serialize.serializeList("pharmacists", p1);
                                 break;
                             }
@@ -353,11 +347,11 @@ public class Main extends Application {
                                 for (Receptionist p : arr) {
                                     if (p.getID().equals(id)) {
                                         System.out.println("Duplicated id");
-                                        bb=true;
+                                        bb = true;
                                         break;
                                     }
                                 }
-                                if(bb)
+                                if (bb)
                                     break;
                                 System.out.print("Enter receptionist name: ");
                                 String name = kb.nextLine();
@@ -377,11 +371,7 @@ public class Main extends Application {
                                 System.out.print("Enter receptionist ID: ");
                                 String id = kb.next();
                                 ArrayList<Receptionist> p1 = (ArrayList<Receptionist>) Serialize.deSerializeList("receptionists");
-                                for (Receptionist d : p1) {
-                                    if (d.getID().equals(id)) {
-                                        p1.remove(d);
-                                    }
-                                }
+                                p1.removeIf(d -> d.getID().equals(id));
                                 Serialize.serializeList("receptionists", p1);
                                 break;
                             }
@@ -399,52 +389,187 @@ public class Main extends Application {
                     }
                     break;
                 case 6:
-                    System.out.println("1. Add new pharmaceutical");
-                    System.out.println("2. Delete existent pharmaceutical");
-                    System.out.println("3. View all pharmaceuticals");
-                    System.out.println("4. Exit");
-                    temp = kb.nextInt();
-                    switch (temp) {
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
+                    boolean b6 = true;
+                    while (b6) {
+                        System.out.println("1. Add new pharmaceutical");
+                        System.out.println("2. Delete existent pharmaceutical");
+                        System.out.println("3. View all pharmaceutical");
+                        System.out.println("4. Exit");
+                        temp = kb.nextInt();
+                        switch (temp) {
+                            case 1: {
+                                System.out.print("Enter pharmaceutical ID: ");
+                                String id = kb.next();
+                                kb.nextLine();
+                                ArrayList<Pharmaceutical> arr = (ArrayList<Pharmaceutical>) Serialize.deSerializeList("pharmaceuticals");
+                                boolean bb = false;
+                                for (Pharmaceutical p : arr) {
+                                    if (p.getID().equals(id)) {
+                                        System.out.println("Duplicated id");
+                                        bb = true;
+                                        break;
+                                    }
+                                }
+                                if (bb)
+                                    break;
+                                System.out.print("Enter pharmaceutical name: ");
+                                String name = kb.nextLine();
+                                System.out.print("Enter pharmaceutical price: ");
+                                int price = kb.nextInt();
+                                System.out.print("Enter pharmaceutical stock: ");
+                                int stock = kb.nextInt();
+                                arr.add(new Pharmaceutical(name, id, price, stock));
+                                Serialize.serializeList("pharmaceuticals", arr);
+                                break;
+                            }
+                            case 2: {
+                                System.out.print("Enter pharmaceutical ID: ");
+                                String id = kb.next();
+                                ArrayList<Pharmaceutical> p1 = (ArrayList<Pharmaceutical>) Serialize.deSerializeList("pharmaceuticals");
+                                p1.removeIf(d -> d.getID().equals(id));
+                                Serialize.serializeList("pharmaceuticals", p1);
+                                break;
+                            }
+                            case 3: {
+                                ArrayList<Pharmaceutical> dd = (ArrayList<Pharmaceutical>) Serialize.deSerializeList("pharmaceuticals");
+                                for (Pharmaceutical d : dd) {
+                                    System.out.println(d);
+                                }
+                                break;
+                            }
+                            case 4:
+                                b6 = false;
+                                break;
+                        }
                     }
-
                     break;
                 case 7:
-                    System.out.println("1. Add new department");
-                    System.out.println("2. Delete existent department");
-                    System.out.println("3. View all departments");
-                    System.out.println("4. Exit");
-                    temp = kb.nextInt();
-                    switch (temp) {
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
+                    boolean b7 = true;
+                    while (b7) {
+                        System.out.println("1. Add new department");
+                        System.out.println("2. Delete existent department");
+                        System.out.println("3. View all department");
+                        System.out.println("4. Exit");
+                        temp = kb.nextInt();
+                        switch (temp) {
+                            case 1: {
+                                System.out.print("Enter department ID: ");
+                                String id = kb.next();
+                                kb.nextLine();
+                                ArrayList<Department> arr = (ArrayList<Department>) Serialize.deSerializeList("departments");
+                                boolean bb = false;
+                                for (Department p : arr) {
+                                    if (p.getID().equals(id)) {
+                                        System.out.println("Duplicated id");
+                                        bb = true;
+                                        break;
+                                    }
+                                }
+                                if (bb)
+                                    break;
+                                System.out.print("Enter department name: ");
+                                String name = kb.nextLine();
+                                arr.add(new Department(id, name));
+                                Serialize.serializeList("departments", arr);
+                                break;
+                            }
+                            case 2: {
+                                System.out.print("Enter department ID: ");
+                                String id = kb.next();
+                                ArrayList<Department> p1 = (ArrayList<Department>) Serialize.deSerializeList("departments");
+                                p1.removeIf(d -> d.getID().equals(id));
+                                Serialize.serializeList("departments", p1);
+                                break;
+                            }
+                            case 3: {
+                                ArrayList<Department> dd = (ArrayList<Department>) Serialize.deSerializeList("departments");
+                                for (Department d : dd) {
+                                    System.out.println(d);
+                                }
+                                break;
+                            }
+                            case 4:
+                                b7 = false;
+                                break;
+                        }
                     }
-
                     break;
                 case 8:
-                    System.out.println("1. Add new room");
-                    System.out.println("2. Delete existent room");
-                    System.out.println("3. View all rooms");
-                    System.out.println("4. Exit");
-                    temp = kb.nextInt();
-                    switch (temp) {
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
-                    }
+                    boolean b8 = true;
+                    while (b8) {
+                        System.out.println("1. Add new room");
+                        System.out.println("2. Delete existent room");
+                        System.out.println("3. View all rooms in a specific department");
+                        System.out.println("4. Exit");
+                        temp = kb.nextInt();
+                        switch (temp) {
+                            case 1: {
+                                System.out.print("Enter room id: ");
+                                String id = kb.next();
+                                kb.nextLine();
+                                System.out.println(id);
+                                System.out.print("Enter room name: ");
+                                String name = kb.next();
+                                kb.nextLine();
+                                System.out.print("Enter department id: ");
+                                String depid = kb.next();
+                                kb.nextLine();
+                                System.out.println(depid);
+                                Room r = new Room(id, name);
+                                ArrayList<Department> arr = (ArrayList<Department>) Serialize.deSerializeList("departments");
+                                boolean b81 = false;
+                                for (Department d : arr) {
+                                    if (d.getID().equals(depid)) {
+                                        d.addRoom(r);
+                                        b81 = true;
+                                    }
+                                }
+                                if (!b81)
+                                    System.out.println("There is no such department associated with this ID");
+                                Serialize.serializeList("departments", arr);
 
+                                break;
+                            }
+                            case 2: {
+                                System.out.print("Enter department id:");
+                                String depid = kb.next();
+                                kb.nextLine();
+                                System.out.print("Enter room id: ");
+                                String id = kb.next();
+                                kb.nextLine();
+                                ArrayList<Department> arr = (ArrayList<Department>) Serialize.deSerializeList("departments");
+                                for (Department d : arr) {
+                                    if (depid.equals(d.getID())) {
+                                        for (Room r : d.getRooms()) {
+                                            if (r.getID().equals(id)) {
+                                                d.getRooms().remove(r);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                Serialize.serializeList("departments", arr);
+                                break;
+                            }
+                            case 3: {
+                                System.out.print("Enter department id:");
+                                String id = kb.next();
+                                kb.nextLine();
+                                ArrayList<Department> arr = (ArrayList<Department>) Serialize.deSerializeList("departments");
+                                for (Department d : arr) {
+                                    if (d.getID().equals(id)) {
+                                        for (Room r : d.getRooms()) {
+                                            System.out.println(r);
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                            case 4:
+                                b8 = false;
+                                break;
+                        }
+                    }
                     break;
                 case 9:
                     exit();
@@ -452,8 +577,6 @@ public class Main extends Application {
                     break;
             }
         }
-
-
     }
 
     private void showDoctorMenu() {
@@ -510,13 +633,33 @@ public class Main extends Application {
     }
 
     private void showReceptionistMenu() {
+
         System.out.println("1. Serve patient");
         System.out.println("2. Exit");
         int temp = kb.nextInt();
         switch (temp) {
             case 1:
-                System.out.print("Enter patient id: ");
-                int eID = kb.nextInt();
+                boolean b1 = true;
+                    System.out.print("Enter patient id: ");
+                    String ID = kb.next();
+                    kb.nextLine();
+                    boolean b11 = false;
+                    ArrayList<Patient> pp = (ArrayList<Patient>) Serialize.deSerializeList("patients");
+                    for (Patient p : pp) {
+                        if (p.getID().equals(ID)) {
+                            b11 = true;
+                            break;
+                        }
+                    }
+                    if (b11) {
+                        ArrayList<Doctor> arr=(ArrayList<Doctor>) Serialize.deSerializeList("doctors");
+                        Collections.sort(arr);
+                        for(Doctor d:arr){
+                            System.out.println("Doctor ID: "+d.getID()+" name: "+d.getID()+" number of patients: "+d.getNoOfPatients());
+                        }
+
+                    }
+
                 break;
             case 2:
                 exit();

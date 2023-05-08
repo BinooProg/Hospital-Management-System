@@ -15,6 +15,10 @@ public class Pharmaceutical implements Serializable {
         this.stock = stock;
     }
 
+    public String toString() {
+        return "Pharmaceutical ID: " + getID() + " name: " + getName() + " price: " + getPrice() + " stock: " + getStock();
+    }
+
     public String getName() {
         return name;
     }
