@@ -5,19 +5,24 @@ import java.util.ArrayList;
 public class Doctor extends Person implements Comparable<Doctor> {
     boolean available;
     private int salary;
-    private String phoneNumb;
     int noOfPatients;
+    String depID;
     ArrayList<Patient> docPatients = new ArrayList<>();
 
-    public Doctor(String ID, String name, String username, String password, int age, int salary, String phoneNumb) {
+    public Doctor(String ID, String name, String username, String password, int age, int salary, String depID) {
         super(ID, name, username, password, age);
         this.salary = salary;
-        this.phoneNumb = phoneNumb;
+        this.depID=depID;
+        available=true;
         noOfPatients=0;
     }
 
+    public void addPatient(Patient p){
+        docPatients.add(p);
+        noOfPatients++;
+    }
     public String toString() {
-        return "Doctor ID: " + getID() + " name: " + getName() + " age: " + getAge() + " username: " + getUsername() + " passwrod: " + getPassword() + " phoneNumb: " + getPhoneNumb();
+        return "Doctor ID: " + getID() + " name: " + getName() + " age: " + getAge() + " username: " + getUsername() + " password: " + getPassword()+" department id: "+getDepID();
     }
 
     public boolean isAvailable() {
@@ -36,10 +41,6 @@ public class Doctor extends Person implements Comparable<Doctor> {
         this.docPatients = docPatients;
     }
 
-    public void addPatient(Patient p) {
-        docPatients.add(p);
-    }
-
     public int getSalary() {
         return salary;
     }
@@ -48,20 +49,20 @@ public class Doctor extends Person implements Comparable<Doctor> {
         this.salary = salary;
     }
 
-    public String getPhoneNumb() {
-        return phoneNumb;
-    }
-
-    public void setPhoneNumb(String phoneNumb) {
-        this.phoneNumb = phoneNumb;
-    }
-
     public int getNoOfPatients() {
         return noOfPatients;
     }
 
     public void setNoOfPatients(int noOfPatients) {
         this.noOfPatients = noOfPatients;
+    }
+
+    public String getDepID() {
+        return depID;
+    }
+
+    public void setDepID(String depID) {
+        this.depID = depID;
     }
 
     @Override

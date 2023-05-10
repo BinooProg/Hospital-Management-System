@@ -37,7 +37,6 @@ public class Main extends Application {
         String aUsername = "aa";
         String aPassword = "aa";
 
-
         boolean found = false;
         ArrayList<ArrayList<Person>> users = new ArrayList<>();
         users.add((ArrayList<Person>) Serialize.deSerializeList("accountants"));
@@ -158,6 +157,7 @@ public class Main extends Application {
                                 String id = kb.next();
                                 kb.nextLine();
                                 ArrayList<Doctor> arr = (ArrayList<Doctor>) Serialize.deSerializeList("doctors");
+                                ArrayList<Department> darr = (ArrayList<Department>) Serialize.deSerializeList("departments");
                                 boolean bb = false;
                                 for (Doctor p : arr) {
                                     if (p.getID().equals(id)) {
@@ -180,11 +180,22 @@ public class Main extends Application {
                                 kb.nextLine();
                                 System.out.print("Enter doctor salary: ");
                                 int salary = kb.nextInt();
-                                System.out.print("Enter doctor phoneNumber: ");
-                                String phoneNumb = kb.next();
+                                System.out.print("Enter doctor department id: ");
+                                String depID = kb.next();
                                 kb.nextLine();
-                                arr.add(new Doctor(id, name, username, password, age, salary, phoneNumb));
+                                Doctor d1 = new Doctor(id, name, username, password, age, salary, depID);
+                                boolean b21=true;
+                                for (Department d : darr) {
+                                    if (d.getID().equals(depID)) {
+                                        d.addDoctor(d1);
+                                        arr.add(d1);
+                                        b21=false;
+                                    }
+                                }
+                                if(b21)
+                                    System.out.println("Department doesn't exist !");
                                 Serialize.serializeList("doctors", arr);
+                                Serialize.serializeList("departments", darr);
                                 break;
                             }
                             case 2:
@@ -633,17 +644,21 @@ public class Main extends Application {
     }
 
     private void showReceptionistMenu() {
-
-        System.out.println("1. Serve patient");
-        System.out.println("2. Exit");
-        int temp = kb.nextInt();
-        switch (temp) {
-            case 1:
-                boolean b1 = true;
+        boolean b1 = true;
+        while (b1) {
+            System.out.println("1. Serve patient");
+            System.out.println("2. Exit");
+            int temp = kb.nextInt();
+            switch (temp) {
+                case 1:
                     System.out.print("Enter patient id: ");
                     String ID = kb.next();
                     kb.nextLine();
+                    System.out.print("Enter department id: ");
+                    String dpID = kb.next();
+                    kb.nextLine();
                     boolean b11 = false;
+                    ArrayList<Doctor> arr = (ArrayList<Doctor>) Serialize.deSerializeList("doctors");
                     ArrayList<Patient> pp = (ArrayList<Patient>) Serialize.deSerializeList("patients");
                     for (Patient p : pp) {
                         if (p.getID().equals(ID)) {
@@ -651,20 +666,50 @@ public class Main extends Application {
                             break;
                         }
                     }
+                    boolean b12=true;
                     if (b11) {
-                        ArrayList<Doctor> arr=(ArrayList<Doctor>) Serialize.deSerializeList("doctors");
                         Collections.sort(arr);
-                        for(Doctor d:arr){
-                            System.out.println("Doctor ID: "+d.getID()+" name: "+d.getID()+" number of patients: "+d.getNoOfPatients());
+                        for (Doctor d : arr) {
+                            if (d.isAvailable()&&d.getDepID().equals(dpID)) {
+                                b12=false;
+                                System.out.println("Doctor ID: " + d.getID() + " name: " + d.getID() + " number of patients: " + d.getNoOfPatients());
+                            }
                         }
-
+                        if(b12){
+                            System.out.println("No doctor associated with this department");
+                            break;
+                        }
+                    } else {
+                        System.out.println("Patient not found !");
+                        break;
                     }
+                    boolean b13=true;
+                    System.out.println("Enter doctor id: ");
+                    String dID = kb.next();
+                    kb.nextLine();
+                    for (Doctor d : arr) {
+                        if(dID.equals(d.getID())){
+                            for(Patient p:pp){
+                                if(p.getID().equals(ID)){
+                                    d.addPatient(p);
+                                }
+                            }
+                            b13=false;
+                        }
+                    }
+                    if(b13){
+                        System.out.println("Doctor not found!");
+                        break;
+                    }
+                    Serialize.serializeList("doctors",arr);
 
-                break;
-            case 2:
-                exit();
-                break;
+                    break;
+                case 2:
+                    exit();
+                    break;
+            }
         }
+
     }
 
     private void showAccountantMenu() {

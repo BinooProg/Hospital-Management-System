@@ -1,11 +1,13 @@
 package model;
 
+import javax.print.Doc;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Department implements Serializable {
     private String ID;
     private String Name;
+    ArrayList<Doctor> depDoctors=new ArrayList<>();
     ArrayList<Room> rooms = new ArrayList<>();
 
     public Department(String ID, String name) {
@@ -13,6 +15,9 @@ public class Department implements Serializable {
         Name = name;
     }
 
+    public void addDoctor(Doctor d){
+        depDoctors.add(d);
+    }
     public String toString() {
         return "Department id: " + getID() + " name: " + getName();
     }
@@ -44,4 +49,5 @@ public class Department implements Serializable {
     public void addRoom(Room r){
     rooms.add(r);
     }
+
 }
