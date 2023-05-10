@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import model.*;
 
+import javax.print.Doc;
 import java.util.*;
 
 
@@ -23,19 +24,21 @@ public class Main extends Application {
     static Stage loginStage = new Stage();
     @FXML
     private TextField epassword;
-
     @FXML
     private Label error;
-
     @FXML
     private TextField eusername;
+    String username;
+    String password;
 
     @FXML
     void Login(ActionEvent event) {
-        String username = eusername.getText();
-        String password = epassword.getText();
+
         String aUsername = "aa";
         String aPassword = "aa";
+        username = eusername.getText();
+        password = epassword.getText();
+
 
         boolean found = false;
         ArrayList<ArrayList<Person>> users = new ArrayList<>();
@@ -184,15 +187,15 @@ public class Main extends Application {
                                 String depID = kb.next();
                                 kb.nextLine();
                                 Doctor d1 = new Doctor(id, name, username, password, age, salary, depID);
-                                boolean b21=true;
+                                boolean b21 = true;
                                 for (Department d : darr) {
                                     if (d.getID().equals(depID)) {
                                         d.addDoctor(d1);
                                         arr.add(d1);
-                                        b21=false;
+                                        b21 = false;
                                     }
                                 }
-                                if(b21)
+                                if (b21)
                                     System.out.println("Department doesn't exist !");
                                 Serialize.serializeList("doctors", arr);
                                 Serialize.serializeList("departments", darr);
@@ -591,25 +594,97 @@ public class Main extends Application {
     }
 
     private void showDoctorMenu() {
-        boolean b = true;
-        while (b) {
+        Doctor d1 = null;
+        ArrayList<Doctor> dd = (ArrayList<Doctor>) Serialize.deSerializeList("doctors");
+        for (Doctor d : dd) {
+            if (d.getUsername().equals(username) && d.getPassword().equals(password)) {
+                d1 = d;
+            }
+        }
+        boolean b1 = true;
+        while (b1) {
             System.out.println("1. Serve patient");
             System.out.println("2. Show all pharmaceutical");
             System.out.println("3. Update status");
             System.out.println("4. Exit");
             int temp = kb.nextInt();
             switch (temp) {
-                case 1:
+                case 1: {
+                    ArrayList<Pharmaceutical> pp = (ArrayList<Pharmaceutical>) Serialize.deSerializeList("pharmaceuticals");
+                    ArrayList<Patient> pa = (ArrayList<Patient>) Serialize.deSerializeList("patients");
+                    Patient p1 = null;
+                    for (Patient p : d1.getDocPatients()) {
+                        System.out.println(p);
+                    }
 
+                    System.out.print("Enter patient ID: ");
+                    String id = kb.next();
+                    kb.nextLine();
+                    boolean b11 = true;
+                    for (Patient p : d1.getDocPatients()) {
+                        if (p.getID().equals(id)) {
+                            b11 = false;
+                            p1 = p;
+                        }
+                    }
+                    if (b11) {
+                        System.out.println("Patient not found");
+                        break;
+                    }
+
+                    System.out.println("Enter your patient diagnosis: ");
+                    String diag = kb.next();
+                    kb.nextLine();
+                    System.out.print("Enter the number of pharmaceuticals: ");
+                    int numb = kb.nextInt();
+                    for (int i = 0; i < numb; i++) {
+                        for (Pharmaceutical p : pp) {
+                            System.out.println(p);
+                        }
+                        System.out.print("Choose pharmaceutical id: ");
+                        String pID = kb.next();
+                        kb.nextLine();
+                        boolean b12 = true;
+                        for (Pharmaceutical p : pp) {
+                            if (p.getID().equals(pID) && p.getStock() > 0) {
+                                b12 = false;
+                                p1.addPharmaceutical(p);
+                                p1.setDiagnosis(diag);
+                                p1.setPaymentStatus(false);
+                                p.setStock(p.getStock() - 1);
+                            }
+                        }
+                        if (b12) {
+                            System.out.println("Pharmaceutical not found");
+                        }
+                    }
+                    Serialize.serializeList("doctors", dd);
+                    Serialize.serializeList("pharmaceuticals", pp);
+                    Serialize.serializeList("patients", pa);
 
                     break;
+                }
                 case 2:
+                    ArrayList<Pharmaceutical> pa = (ArrayList<Pharmaceutical>) Serialize.deSerializeList("pharmaceuticals");
+                    for (Pharmaceutical p : pa) {
+                        System.out.println(p);
+                    }
                     break;
                 case 3:
+                    System.out.println("== Set your status ==");
+                    System.out.println("Available -> 1");
+                    System.out.println("Occupied -> 0");
+                    int ans = kb.nextInt();
+                    if (ans > 0) {
+                        d1.setAvailable(true);
+                    } else {
+                        d1.setAvailable(false);
+                    }
+                    Serialize.serializeList("doctors", dd);
                     break;
                 case 4:
+                    b1 = false;
                     exit();
-                    b = false;
                     break;
             }
         }
@@ -666,16 +741,16 @@ public class Main extends Application {
                             break;
                         }
                     }
-                    boolean b12=true;
+                    boolean b12 = true;
                     if (b11) {
                         Collections.sort(arr);
                         for (Doctor d : arr) {
-                            if (d.isAvailable()&&d.getDepID().equals(dpID)) {
-                                b12=false;
+                            if (d.isAvailable() && d.getDepID().equals(dpID)) {
+                                b12 = false;
                                 System.out.println("Doctor ID: " + d.getID() + " name: " + d.getID() + " number of patients: " + d.getNoOfPatients());
                             }
                         }
-                        if(b12){
+                        if (b12) {
                             System.out.println("No doctor associated with this department");
                             break;
                         }
@@ -683,28 +758,38 @@ public class Main extends Application {
                         System.out.println("Patient not found !");
                         break;
                     }
-                    boolean b13=true;
-                    System.out.println("Enter doctor id: ");
+                    boolean b13 = true;
+                    System.out.print("Enter doctor id: ");
                     String dID = kb.next();
                     kb.nextLine();
+                    boolean b14 = true;
                     for (Doctor d : arr) {
-                        if(dID.equals(d.getID())){
-                            for(Patient p:pp){
-                                if(p.getID().equals(ID)){
+                        if (dID.equals(d.getID()) && b14) {
+                            for (Patient p : pp) {
+                                if (p.getID().equals(ID) && b14) {
+                                    for (Patient p1 : d.getDocPatients()) {
+                                        if (p1.getID().equals(ID)) {
+                                            System.out.println("This patient is already assigned");
+                                            b14 = false;
+                                            break;
+                                        }
+                                    }
+                                    if(b14)
                                     d.addPatient(p);
                                 }
                             }
-                            b13=false;
+                            b13 = false;
                         }
                     }
-                    if(b13){
+                    if (b13) {
                         System.out.println("Doctor not found!");
                         break;
                     }
-                    Serialize.serializeList("doctors",arr);
+                    Serialize.serializeList("doctors", arr);
 
                     break;
                 case 2:
+                    b1 = false;
                     exit();
                     break;
             }
