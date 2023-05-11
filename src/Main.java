@@ -9,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import model.*;
-
 import javax.print.Doc;
 import java.util.*;
 
@@ -234,7 +233,7 @@ public class Main extends Application {
                                 System.out.print("Enter accountant ID: ");
                                 String id = kb.next();
                                 kb.nextLine();
-                                ArrayList<Accountant> arr = (ArrayList<Accountant>) Serialize.deSerializeList("accountant");
+                                ArrayList<Accountant> arr = (ArrayList<Accountant>) Serialize.deSerializeList("accountants");
                                 boolean bb = false;
                                 for (Accountant p : arr) {
                                     if (p.getID().equals(id)) {
@@ -656,6 +655,7 @@ public class Main extends Application {
                         }
                         if (b12) {
                             System.out.println("Pharmaceutical not found");
+                            break;
                         }
                     }
                     Serialize.serializeList("doctors", dd);
@@ -774,8 +774,8 @@ public class Main extends Application {
                                             break;
                                         }
                                     }
-                                    if(b14)
-                                    d.addPatient(p);
+                                    if (b14)
+                                        d.addPatient(p);
                                 }
                             }
                             b13 = false;
@@ -803,10 +803,32 @@ public class Main extends Application {
         System.out.println("3. Show statistics");
         System.out.println("4. Exit");
         int temp = kb.nextInt();
+        ArrayList<Patient> arr = (ArrayList<Patient>) Serialize.deSerializeList("patients");
         switch (temp) {
             case 1:
-
-
+                System.out.print("Enter patient id: ");
+                String id = kb.next();
+                kb.nextLine();
+                boolean b1 = true;
+                int sum=0;
+                for (Patient p : arr) {
+                    if (p.getID().equals(id)) {
+                        b1 = false;
+                        if (p.getPharmaceuticals().size()==0) {
+                            System.out.println("This patient hasn't been diagnosted yet");
+                        } else {
+                            for (Pharmaceutical pp : p.getPharmaceuticals()) {
+                                System.out.println("name: " + pp.getName() + " price: " + +pp.getPrice());
+                                sum+=pp.getPrice();
+                            }
+                        }
+                    }
+                    if(b1){
+                        System.out.println("There is no patient associated with this ID.");
+                    } else {
+                        System.out.println("The sum is = "+sum);
+                    }
+                }
                 break;
             case 2:
                 break;

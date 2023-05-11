@@ -1,5 +1,4 @@
 package model;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -69,5 +68,8 @@ public class Patient implements Serializable {
 
     public void setPaymentStatus(boolean paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+    public void deletePatient(String id){
+        ArrayList<Patient> pp;
     }
 }
