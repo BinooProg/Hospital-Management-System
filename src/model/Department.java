@@ -1,6 +1,4 @@
 package model;
-
-import javax.print.Doc;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -42,12 +40,31 @@ public class Department implements Serializable {
         return rooms;
     }
 
-    public void setRooms(ArrayList<Room> rooms) {
-        this.rooms = rooms;
-    }
-
     public void addRoom(Room r){
     rooms.add(r);
     }
 
+    public static void deleteDepartment(String id){
+        ArrayList<Department> dd=(ArrayList<Department>)Serialize.deSerializeList("departments");
+        ArrayList<Doctor> ee=(ArrayList<Doctor>)Serialize.deSerializeList("doctors");
+        boolean found=false;
+        for (Department d : dd){
+            if(d.getID().equals(id)){
+                found=true;
+                dd.remove(d);
+                ee.removeIf(e -> e.getDepID().equals(id));
+                d.getDepDoctors().removeIf(e -> e.getDepID().equals(id));
+                break;
+            }
+            break;
+        }
+        if(!found)
+            System.out.println("Department not found");
+        Serialize.serializeList("departments",dd);
+        Serialize.serializeList("doctors",ee);
+    }
+
+    public ArrayList<Doctor> getDepDoctors() {
+        return depDoctors;
+    }
 }

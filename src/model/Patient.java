@@ -69,7 +69,24 @@ public class Patient implements Serializable {
     public void setPaymentStatus(boolean paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
-    public void deletePatient(String id){
-        ArrayList<Patient> pp;
+    public static void  deletePatient(String id){
+        ArrayList<Patient> pp = (ArrayList<Patient>) Serialize.deSerializeList("patients");
+        ArrayList<Doctor> dd = (ArrayList<Doctor>) Serialize.deSerializeList("doctors");
+        boolean found=false;
+        for (Patient p: pp){
+            if(p.getID().equals(id)){
+                found=true;
+                pp.remove(p);
+                for (Doctor d : dd){
+                    d.getDocPatients().removeIf(p1 -> p1.getID().equals(id));
+                    break;
+                }
+                break;
+            }
+        }
+        if(!found)
+            System.out.println("Patient not found.");
+        Serialize.serializeList("patients",pp);
+        Serialize.serializeList("doctors",dd);
     }
 }

@@ -1,6 +1,6 @@
 package model;
-
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Pharmaceutical implements Serializable {
     private String name;
@@ -39,9 +39,6 @@ public class Pharmaceutical implements Serializable {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
 
     public int getStock() {
         return stock;
@@ -49,5 +46,28 @@ public class Pharmaceutical implements Serializable {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public static void deletePharmaceutical(String id){
+        ArrayList<Patient> pp = (ArrayList<Patient>) Serialize.deSerializeList("patients");
+        ArrayList<Pharmaceutical> dd = (ArrayList<Pharmaceutical>) Serialize.deSerializeList("pharmaceuticals");
+        boolean found=false;
+        for (Pharmaceutical d: dd){
+            if(d.getID().equals(id)){
+                found=true;
+                dd.remove(d);
+                for (Patient p : pp){
+                    for (Pharmaceutical p1 : p.getPharmaceuticals()){
+                        p.getPharmaceuticals().remove(p);
+                    }
+                }
+
+                break;
+            }
+        }
+        if(!found)
+            System.out.println("Pharmaceutical not found.");
+        Serialize.serializeList("patients",pp);
+        Serialize.serializeList("pharmaceuticals",dd);
     }
 }

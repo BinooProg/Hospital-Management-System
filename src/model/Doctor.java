@@ -1,5 +1,4 @@
 package model;
-
 import java.util.ArrayList;
 
 public class Doctor extends Person implements Comparable<Doctor> {

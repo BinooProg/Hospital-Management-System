@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import model.*;
-import javax.print.Doc;
+
 import java.util.*;
 
 
@@ -127,9 +127,8 @@ public class Main extends Application {
                             case 2: {
                                 System.out.print("Enter patient ID: ");
                                 String id = kb.next();
-                                ArrayList<Patient> p = (ArrayList<Patient>) Serialize.deSerializeList("patients");
-                                p.removeIf(d -> d.getID().equals(id));
-                                Serialize.serializeList("patients", p);
+                                kb.nextLine();
+                                Patient.deletePatient(id);
                                 break;
                             }
                             case 3: {
@@ -438,9 +437,8 @@ public class Main extends Application {
                             case 2: {
                                 System.out.print("Enter pharmaceutical ID: ");
                                 String id = kb.next();
-                                ArrayList<Pharmaceutical> p1 = (ArrayList<Pharmaceutical>) Serialize.deSerializeList("pharmaceuticals");
-                                p1.removeIf(d -> d.getID().equals(id));
-                                Serialize.serializeList("pharmaceuticals", p1);
+                                kb.nextLine();
+                                Pharmaceutical.deletePharmaceutical(id);
                                 break;
                             }
                             case 3: {
@@ -489,9 +487,8 @@ public class Main extends Application {
                             case 2: {
                                 System.out.print("Enter department ID: ");
                                 String id = kb.next();
-                                ArrayList<Department> p1 = (ArrayList<Department>) Serialize.deSerializeList("departments");
-                                p1.removeIf(d -> d.getID().equals(id));
-                                Serialize.serializeList("departments", p1);
+                                kb.nextLine();
+                                Department.deleteDepartment(id);
                                 break;
                             }
                             case 3: {
