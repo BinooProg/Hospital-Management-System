@@ -14,6 +14,7 @@ public class Patient implements Serializable {
         this.ID=ID;
         this.name=name;
         this.age=age;
+        paymentStatus=false;
     }
 
     public String toString(){

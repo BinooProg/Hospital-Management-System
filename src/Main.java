@@ -620,7 +620,11 @@ public class Main extends Application {
                     for (Patient p : d1.getDocPatients()) {
                         if (p.getID().equals(id)) {
                             b11 = false;
-                            p1 = p;
+                            for (Patient o : pa) {
+                                if (o.getID().equals(id)) {
+                                    p1 = o;
+                                }
+                            }
                         }
                     }
                     if (b11) {
@@ -633,6 +637,7 @@ public class Main extends Application {
                     kb.nextLine();
                     System.out.print("Enter the number of pharmaceuticals: ");
                     int numb = kb.nextInt();
+                    p1.getPharmaceuticals().clear();
                     for (int i = 0; i < numb; i++) {
                         for (Pharmaceutical p : pp) {
                             System.out.println(p);
@@ -647,7 +652,6 @@ public class Main extends Application {
                                 p1.addPharmaceutical(p);
                                 p1.setDiagnosis(diag);
                                 p1.setPaymentStatus(false);
-                                p.setStock(p.getStock() - 1);
                             }
                         }
                         if (b12) {
@@ -658,7 +662,6 @@ public class Main extends Application {
                     Serialize.serializeList("doctors", dd);
                     Serialize.serializeList("pharmaceuticals", pp);
                     Serialize.serializeList("patients", pa);
-
                     break;
                 }
                 case 2:
@@ -795,45 +798,72 @@ public class Main extends Application {
     }
 
     private void showAccountantMenu() {
-        System.out.println("1. Serve patient");
-        System.out.println("2. Show all patients");
-        System.out.println("3. Show statistics");
-        System.out.println("4. Exit");
-        int temp = kb.nextInt();
-        ArrayList<Patient> arr = (ArrayList<Patient>) Serialize.deSerializeList("patients");
-        switch (temp) {
-            case 1:
-                System.out.print("Enter patient id: ");
-                String id = kb.next();
-                kb.nextLine();
-                boolean b1 = true;
-                int sum=0;
-                for (Patient p : arr) {
-                    if (p.getID().equals(id)) {
-                        b1 = false;
-                        if (p.getPharmaceuticals().size()==0) {
-                            System.out.println("This patient hasn't been diagnosted yet");
-                        } else {
-                            for (Pharmaceutical pp : p.getPharmaceuticals()) {
-                                System.out.println("name: " + pp.getName() + " price: " + +pp.getPrice());
-                                sum+=pp.getPrice();
+        boolean b2 = true;
+        while (b2) {
+            System.out.println("1. Serve patient");
+            System.out.println("2. Show all patients");
+            System.out.println("3. Show statistics");
+            System.out.println("4. Exit");
+            int temp = kb.nextInt();
+            ArrayList<Patient> arr = (ArrayList<Patient>) Serialize.deSerializeList("patients");
+            switch (temp) {
+                case 1:
+                    System.out.print("Enter patient id: ");
+                    String id = kb.next();
+                    kb.nextLine();
+                    boolean b1 = true;
+                    Patient p1=null;
+                    int sum = 0;
+                    int noOfMed=0;
+                    for (Patient p : arr) {
+                        if (p.getID().equals(id)) {
+                            p1=p;
+                            b1 = false;
+                            if (p.getPharmaceuticals().isEmpty()) {
+                                System.out.println("This patient hasn't been diagnosted yet");
+                            } else {
+                                for (Pharmaceutical pp : p.getPharmaceuticals()) {
+                                    System.out.println("name: " + pp.getName() + " price: " + pp.getPrice());
+                                    sum += pp.getPrice();
+                                    noOfMed+=1;
+                                }
+                                break;
                             }
                         }
                     }
-                    if(b1){
+                    if (b1) {
                         System.out.println("There is no patient associated with this ID.");
                     } else {
-                        System.out.println("The sum is = "+sum);
+                        System.out.println("The sum is = " + sum);
+                        System.out.println("Patient payment : ");
+                        System.out.println("Payed -> 1");
+                        System.out.println("No pay -> 0");
+                        int pyment=kb.nextInt();
+                        if(pyment>0){
+                            p1.setPaymentStatus(true);
+                            Accountant.setMoneyPayed(Accountant.getMoneyPayed()+sum);
+                            Accountant.setNoOfServedPatients(Accountant.getNoOfServedPatients()+1);
+                            Accountant.setNoOfDecribedPhar(Accountant.getNoOfDecribedPhar()+noOfMed);
+                        }
+
                     }
-                }
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                exit();
-                break;
+                    Serialize.serializeList("patients", arr);
+                    break;
+                case 2:
+                    for (Patient p : arr){
+                        System.out.println(p);
+                    }
+                    break;
+                case 3:
+                    System.out.println("Number of described pharmaceutical: "+Accountant.getNoOfDecribedPhar());
+                    System.out.println("Number of served patients: "+Accountant.getNoOfServedPatients());
+                    System.out.println("Payed money: "+Accountant.getMoneyPayed());
+                    break;
+                case 4:
+                    b2 = false;
+                    exit();
+                    break;
+            }
         }
     }
 
