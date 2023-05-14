@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import model.*;
 
+import javax.print.Doc;
 import java.util.*;
 
 
@@ -179,6 +180,10 @@ public class Main extends Application {
                                 System.out.print("Enter doctor password: ");
                                 String password = kb.next();
                                 kb.nextLine();
+                                if(Person.isRegistered(username,password)){
+                                    System.out.println("There exist person with the same username and password");
+                                    break;
+                                }
                                 System.out.print("Enter doctor salary: ");
                                 int salary = kb.nextInt();
                                 System.out.print("Enter doctor department id: ");
@@ -253,6 +258,10 @@ public class Main extends Application {
                                 System.out.print("Enter accountant password: ");
                                 String password = kb.next();
                                 kb.nextLine();
+                                if(Person.isRegistered(username,password)){
+                                    System.out.println("There exist person with the same username and password");
+                                    break;
+                                }
                                 System.out.print("Enter accountant salary: ");
                                 int salary = kb.nextInt();
                                 arr.add(new Accountant(id, name, username, password, age, salary));
@@ -315,6 +324,10 @@ public class Main extends Application {
                                 System.out.print("Enter pharmacist password: ");
                                 String password = kb.next();
                                 kb.nextLine();
+                                if(Person.isRegistered(username,password)){
+                                    System.out.println("There exist person with the same username and password");
+                                    break;
+                                }
                                 arr.add(new Pharmacist(id, name, username, password, age));
                                 Serialize.serializeList("pharmacists", arr);
                                 break;
@@ -375,6 +388,10 @@ public class Main extends Application {
                                 System.out.print("Enter receptionist password: ");
                                 String password = kb.next();
                                 kb.nextLine();
+                                if(Person.isRegistered(username,password)){
+                                    System.out.println("There exist person with the same username and password");
+                                    break;
+                                }
                                 arr.add(new Receptionist(id, name, username, password, age));
                                 Serialize.serializeList("receptionists", arr);
                                 break;
@@ -417,8 +434,11 @@ public class Main extends Application {
                                 boolean bb = false;
                                 for (Pharmaceutical p : arr) {
                                     if (p.getID().equals(id)) {
-                                        System.out.println("Duplicated id");
+                                        System.out.print("This pharmaceutical do already exist\nEnter the number of pharmaceitucals to be added to the stoc: ");
+                                        int amount =kb.nextInt();
+                                        p.setStock(p.getStock()+amount);
                                         bb = true;
+                                        Serialize.serializeList("pharmaceuticals", arr);
                                         break;
                                     }
                                 }
@@ -517,7 +537,6 @@ public class Main extends Application {
                                 System.out.print("Enter room id: ");
                                 String id = kb.next();
                                 kb.nextLine();
-                                System.out.println(id);
                                 System.out.print("Enter room name: ");
                                 String name = kb.next();
                                 kb.nextLine();
@@ -692,29 +711,109 @@ public class Main extends Application {
     }
 
     private void showPharmacistMenu() {
-        System.out.println("1. Serve patient");
-        System.out.println("2. Show all patients");
-        System.out.println("3. Show all pharmaceutical");
-        System.out.println("4. Add new pharmaceutical");
-        System.out.println("5. Show statistics");
-        System.out.println("6. Exit");
-        int temp = kb.nextInt();
-        switch (temp) {
-            case 1:
+        ArrayList<Patient> pp = (ArrayList<Patient>) Serialize.deSerializeList("patients");
+        ArrayList<Pharmaceutical> pa = (ArrayList<Pharmaceutical>) Serialize.deSerializeList("pharmaceuticals");
+        ArrayList<Doctor> dr=(ArrayList<Doctor>) Serialize.deSerializeList("doctors");
+        boolean b1 = true;
+        while (b1) {
+            System.out.println("1. Serve patient");
+            System.out.println("2. Show all patients");
+            System.out.println("3. Show all pharmaceutical");
+            System.out.println("4. Add new pharmaceutical");
+            System.out.println("5. Show statistics");
+            System.out.println("6. Exit");
+            int temp = kb.nextInt();
+            switch (temp) {
+                case 1:
+                    System.out.print("Enter patient ID: ");
+                    String ID = kb.next();
+                    kb.nextLine();
+                    boolean b11 = true;
+                    for (Patient p : pp) {
+                        if (p.getID().equals(ID)) {
+                            b11 = false;
+                            if (p.isPaymentStatus()) {
+                                for (Pharmaceutical ph : p.getPharmaceuticals()) {
+                                    System.out.println(ph);
+                                    for (Pharmaceutical pp1 : pa){
+                                        if(pp1.getID().equals(ph.getID())){
+                                            pp1.setStock(pp1.getStock()-1);
+                                        }
+                                    }
+                                    ph.setStock(ph.getStock() - 1);
+                                }
+                                p.setPaymentStatus(false);
+                                p.getPharmaceuticals().clear();
+                                for (Doctor d : dr){
+                                    for (Patient p1 : d.getDocPatients()){
+                                        if(p1.getID().equals(ID)){
+                                            d.getDocPatients().remove(p1);
+                                            break;
+                                        }
+                                    }
+                                }
+                            } else if (!p.isPaymentStatus()) {
+                                if (p.getPharmaceuticals().isEmpty()) {
+                                    System.out.println("Go to your doctor to get diagnosted");
+                                } else
+                                    System.out.println("Check the accountant to pay you pharmaceuticals pill");
+                            }
+                            break;
+                        }
+                    }
+                    if (b11)
+                        System.out.println("Patient not found");
+                    Serialize.serializeList("patients",pp);
+                    Serialize.serializeList("pharmaceuticals",pa);
+                    Serialize.serializeList("doctors",dr);
 
-
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                exit();
-                break;
+                    break;
+                case 2:
+                    for (Patient p : pp) {
+                        System.out.println(p);
+                    }
+                    break;
+                case 3:
+                    for (Pharmaceutical ph : pa) {
+                        System.out.println(ph);
+                    }
+                    break;
+                case 4:
+                    System.out.print("Enter pharmaceutical ID: ");
+                    String id = kb.next();
+                    kb.nextLine();
+                    boolean bb = false;
+                    for (Pharmaceutical p : pa) {
+                        if (p.getID().equals(id)) {
+                            System.out.print("This pharmaceutical do already exist\nEnter the number of pharmaceitucals to be added to the stoc: ");
+                            int amount =kb.nextInt();
+                            p.setStock(p.getStock()+amount);
+                            Serialize.serializeList("pharmaceuticals", pa);
+                            bb = true;
+                            break;
+                        }
+                    }
+                    if (bb)
+                        break;
+                    System.out.print("Enter pharmaceutical name: ");
+                    String name = kb.nextLine();
+                    System.out.print("Enter pharmaceutical price: ");
+                    int price = kb.nextInt();
+                    System.out.print("Enter pharmaceutical stock: ");
+                    int stock = kb.nextInt();
+                    pa.add(new Pharmaceutical(name, id, price, stock));
+                    Serialize.serializeList("pharmaceuticals", pa);
+                    break;
+                case 5:
+                    System.out.println("Number of described pharmaceutical: " + Accountant.getNoOfDecribedPhar());
+                    System.out.println("Number of served patients: " + Accountant.getNoOfServedPatients());
+                    System.out.println("Payed money: " + Accountant.getMoneyPayed());
+                    break;
+                case 6:
+                    b1 = false;
+                    exit();
+                    break;
+            }
         }
     }
 
@@ -812,12 +911,12 @@ public class Main extends Application {
                     String id = kb.next();
                     kb.nextLine();
                     boolean b1 = true;
-                    Patient p1=null;
+                    Patient p1 = null;
                     int sum = 0;
-                    int noOfMed=0;
+                    int noOfMed = 0;
                     for (Patient p : arr) {
                         if (p.getID().equals(id)) {
-                            p1=p;
+                            p1 = p;
                             b1 = false;
                             if (p.getPharmaceuticals().isEmpty()) {
                                 System.out.println("This patient hasn't been diagnosted yet");
@@ -825,7 +924,7 @@ public class Main extends Application {
                                 for (Pharmaceutical pp : p.getPharmaceuticals()) {
                                     System.out.println("name: " + pp.getName() + " price: " + pp.getPrice());
                                     sum += pp.getPrice();
-                                    noOfMed+=1;
+                                    noOfMed += 1;
                                 }
                                 break;
                             }
@@ -838,26 +937,26 @@ public class Main extends Application {
                         System.out.println("Patient payment : ");
                         System.out.println("Payed -> 1");
                         System.out.println("No pay -> 0");
-                        int pyment=kb.nextInt();
-                        if(pyment>0){
+                        int pyment = kb.nextInt();
+                        if (pyment > 0) {
                             p1.setPaymentStatus(true);
-                            Accountant.setMoneyPayed(Accountant.getMoneyPayed()+sum);
-                            Accountant.setNoOfServedPatients(Accountant.getNoOfServedPatients()+1);
-                            Accountant.setNoOfDecribedPhar(Accountant.getNoOfDecribedPhar()+noOfMed);
+                            Accountant.setMoneyPayed(Accountant.getMoneyPayed() + sum);
+                            Accountant.setNoOfServedPatients(Accountant.getNoOfServedPatients() + 1);
+                            Accountant.setNoOfDecribedPhar(Accountant.getNoOfDecribedPhar() + noOfMed);
                         }
 
                     }
                     Serialize.serializeList("patients", arr);
                     break;
                 case 2:
-                    for (Patient p : arr){
+                    for (Patient p : arr) {
                         System.out.println(p);
                     }
                     break;
                 case 3:
-                    System.out.println("Number of described pharmaceutical: "+Accountant.getNoOfDecribedPhar());
-                    System.out.println("Number of served patients: "+Accountant.getNoOfServedPatients());
-                    System.out.println("Payed money: "+Accountant.getMoneyPayed());
+                    System.out.println("Number of described pharmaceutical: " + Accountant.getNoOfDecribedPhar());
+                    System.out.println("Number of served patients: " + Accountant.getNoOfServedPatients());
+                    System.out.println("Payed money: " + Accountant.getMoneyPayed());
                     break;
                 case 4:
                     b2 = false;

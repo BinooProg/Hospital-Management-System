@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Person implements Serializable {
     private String ID;
@@ -55,5 +56,18 @@ public class Person implements Serializable {
 
     public void setAge(int age) {
         this.age = age;
+    }
+    public static boolean isRegistered(String username , String password){
+        ArrayList<Person> users = new ArrayList<>();
+        users.addAll((ArrayList<Person>) Serialize.deSerializeList("accountants"));
+        users.addAll((ArrayList<Person>) Serialize.deSerializeList("doctors"));
+        users.addAll((ArrayList<Person>) Serialize.deSerializeList("pharmacists"));
+        users.addAll((ArrayList<Person>) Serialize.deSerializeList("receptionists"));
+        for (Person p : users){
+            if(p.getUsername().equals(username) && p.getPassword().equals(password)){
+                return true;
+            }
+        }
+        return false;
     }
 }
